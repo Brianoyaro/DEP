@@ -1,11 +1,13 @@
-// const express = require('express');
 import express from 'express';
 import { getToys, getToy, newToy, deleteToy, updateToy } from './toys.js';
 
 const app = express();
 
-// incorporate this middleware to allow parsing of json data
+// Parse JSON bodies
 app.use(express.json());
+
+// Parse URL-encoded form bodies
+app.use(express.urlencoded({ extended: true }));
 
 // read all toys
 app.get('/toys', async (req, res) => {
@@ -40,7 +42,7 @@ app.put('/update/:id', async (req, res) => {
 app.delete('/delete/:id', async (req, res) => {
     const id = req.params.id;
     await deleteToy(id);
-    res.json({'Message': 'The yot was succeessfully deleted!'});
+    res.json({'Message': 'The toy was succeessfully deleted!'});
 })
 
 app.listen(8080, () => {

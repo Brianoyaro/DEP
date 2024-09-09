@@ -15,7 +15,7 @@ export async function getToys() {
   const [rows] = await pool.query(
     'SELECT * FROM `toys`'
   );
-  return rows[0];
+  return rows;
 }
 
 // gets a single toy using its id
@@ -29,17 +29,18 @@ export async function getToy(id) {
 // create a new toy
 export async function newToy(name, description, price, origin_country) {
     const [result] = await pool.query(
-        'INSERT INTO `toys` (name, description, price, origin_country) VALUES ?, ?, ?, ?', [name, description, price, origin_country]
+        'INSERT INTO `toys` (name, description, price, origin_country) VALUES (?, ?, ?, ?)', [name, description, price, origin_country]
     );
     return result.insertId;
 }
 
 // updates a toy
 export async function updateToy(id, name, description, price, origin_country) {
-    const [rows] = await pool.query(
+    const [result] = await pool.query(
         'UPDATE `toys` SET name=?, description=?, price=?, origin_country=? WHERE id=?', [name, description, price, origin_country, id]
     );
-    return rows[0];
+    const toy = await getToy(id);
+    return toy;
 }
 
 // deletes a toy
