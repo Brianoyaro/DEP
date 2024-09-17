@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Update Post</title>
+</head>
+<body>
+    <form action="/updatePost/<%= post.id %>" method="POST">
+        <div class="form-group">
+            <label for="postTile">Title</label>
+            <input type="text" name="title" id="postTitle">
+        </div>
+        <div class="form-group">
+            <label for="new-post">Update post</label>
+            <textarea name="post" id="new-post" cols="30" rows="10" value=<%= post.post %>></textarea>
+        </div>
+        <button type="submit">Update Post</button>
+    </form>
+</body>
+</html>

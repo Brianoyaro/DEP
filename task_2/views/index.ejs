@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Home Page</title>
+</head>
+<body>
+    <form action="/logout?_method=DELETE" method="POST">
+        <button type="submit">Logout</button>
+    </form>
+    <hr>
+    <a href="/newPost">New Post</a>
+
+    <% posts.forEach(post => { %>
+        <div>
+            <h2><%= post.title %></h2>
+            <p><%= post.post %></p>
+            <a href="/newComment/<%= post.id %>">Comment</a>
+            <a href="/updatePost/<%= post.id %>">Update</a>
+            <form action="/deletePost/<%= post.id %>" method="POST">
+                <button type="submit">Delete</button>
+            </form>
+            <!-- <a href="/deletePost/<%= post.id %>">Delete</a> -->
+        </div>
+    <% }) %>
+</body>
+</html>

@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>New Comment</title>
+</head>
+<body>
+    <p><%= post.post %></p> 
+    <form action="/newComment" method="POST">
+        <textarea name="comment" id="" cols="30" rows="10" placeholder="Write comment..."></textarea>
+        <button type="submit">comment</button>
+    </form>
+    <hr>
+
+    <% comments.forEach(comment => { %>
+        <div>
+            <p><%= comment.comment %></p>
+        </div>
+    <% }) %>
+</body>
+</html>
