@@ -62,7 +62,7 @@ app.post('/updatePost/:id', checkAuthenticated, async (req, res) => {
     res.redirect('/')
 })
 
-app.post('/deletePost/:id', checkAuthenticated, async (req, res) => {
+app.get('/deletePost/:id', checkAuthenticated, async (req, res) => {
     const id = +req.params.id
     await deletePost(id)
     res.redirect('/')
