@@ -1,5 +1,5 @@
 -- create a database
-DROP DATABASE IF EXIXTS internship;
+DROP DATABASE IF EXISTS internship;
 CREATE DATABASE IF NOT EXISTS internship;
 USE internship;
 

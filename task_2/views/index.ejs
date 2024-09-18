@@ -6,15 +6,19 @@
     <title>Home Page</title>
 </head>
 <body>
-    <form action="/logout?_method=DELETE" method="POST">
+    <!-- <form action="/logout" method="POST">
         <button type="submit">Logout</button>
-    </form>
+    </form> -->
+    <a href="/logout">Log-out</a>
     <hr>
     <a href="/newPost">New Post</a>
 
     <% posts.forEach(post => { %>
-        <div>
-            <h2><%= post.title %></h2>
+        <div style="border: 1px solid blue; margin: 1.4rem 0; padding: 12px">
+            <!-- <% const user = getUserById(+post.author_id) %>
+            <%= user %>
+            <p><%= user.name %> says:</p> -->
+            <h4><%= post.title %></h4>
             <p><%= post.post %></p>
             <a href="/newComment/<%= post.id %>">Comment</a>
             <a href="/updatePost/<%= post.id %>">Update</a>

@@ -7,11 +7,12 @@
 </head>
 <body>
     <p><%= post.post %></p> 
-    <form action="/newComment" method="POST">
+    <form action="/newComment/<%= post.id %>" method="POST">
         <textarea name="comment" id="" cols="30" rows="10" placeholder="Write comment..."></textarea>
         <button type="submit">comment</button>
     </form>
     <hr>
+    <h4>Comments:</h4>
 
     <% comments.forEach(comment => { %>
         <div>

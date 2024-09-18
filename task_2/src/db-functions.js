@@ -1,4 +1,4 @@
-import mysql from 'mysql2/promise';
+const mysql = require('mysql2/promise');
 const pool = mysql.createPool({
   host     : 'localhost',
   user     : 'brian',
@@ -6,28 +6,27 @@ const pool = mysql.createPool({
   database : 'internship'
 });
 // retrieves a user
-export async function getUserByEmail(email) {
+async function getUserByEmail(email) {
     const [rows] = await pool.query(
         `SELECT * FROM users WHERE email = ?`, [email]
     );
     return rows; 
 }
-
-export async function getUserById(id) {
+async function getUserById(id) {
     const [rows] = await pool.query(
         `SELECT * FROM users WHERE id = ?`, [id]
     );
     return rows; 
 }
 
-export async function getAllPosts() {
+async function getAllPosts() {
     const [rows] = await pool.query(
         `SELECT * FROM posts`
     );
     return rows; 
 }
 
-export async function getPostById(id) {
+async function getPostById(id) {
     const [rows] = await pool.query(
         `SELECT * FROM posts WHERE id = ?`, [id]
     );
@@ -35,7 +34,7 @@ export async function getPostById(id) {
 }
 
 
-export async function getCommentsByPostId(id) {
+async function getCommentsByPostId(id) {
     const [rows] = await pool.query(
         `SELECT * FROM comments WHERE post_id = ?`, [id]
     );
@@ -43,36 +42,41 @@ export async function getCommentsByPostId(id) {
 }
 
 // create a new user
-export async function newUser(name, email, hashedPassword) {
+async function newUser(name, email, hashedPassword) {
     const [result] = await pool.query(
-        'INSERT INTO `users` (name, email, password) VALUES (?, ?)', [name, email, hashedPassword]
+        'INSERT INTO `users` (name, email, password) VALUES (?, ?, ?)', [name, email, hashedPassword]
     );
     return result.insertId;
 }
 
 // create a new comment
-export async function newComment(comment, post_id, author_id) {
+async function newComment(comment, post_id, author_id) {
     const [result] = await pool.query(
         'INSERT INTO `comments` (comment, post_id, author_id) VALUES (?, ?, ?)', [comment, post_id, author_id]
     );
     return result.insertId;
 }
 // create a new post
-export async function newPost(post, author_id) {
-    const [result] = await pool.query(
-        'INSERT INTO `posts` (title, post, author_id) VALUES (?, ?)', [title, post, author_id]
-    );
-    return result.insertId;
+async function newPost(title, post, author_id) {
+    try {
+        const [result] = await pool.query(
+            'INSERT INTO `posts` (title, post, author_id) VALUES (?, ?, ?)', [title, post, author_id]
+        );
+        return result.insertId;
+    } catch (e) {
+        console.log(e)
+    }
 }
 // updates a post
-export async function updatePostById(post, author_id, post_id) {
+async function updatePostById(title, post, author_id, post_id) {
     const [result] = await pool.query(
-        'UPDATE `toys` SET title = ?, post = ?, author_id = ? WHERE post_id = ?', [post.title, post.post , author_id, post_id]
+        'UPDATE `posts` SET title = ?, post = ?, author_id = ? WHERE id = ?', [title, post , author_id, post_id]
     );
     return result.insertId;
 }
 
 // deletes a post
-export async function deletePost(id) {
+async function deletePost(id) {
     await pool.query('DELETE FROM `posts` WHERE id=?', [id]);
 }
+module.exports = { getUserByEmail, getUserById, getAllPosts, getPostById, getCommentsByPostId, newUser, newComment, newPost, updatePostById, deletePost}

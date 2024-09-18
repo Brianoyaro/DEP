@@ -10,7 +10,7 @@ const flash = require('express-flash');
 const session = require('express-session');
 const intializePassport = require('./passport-config');
 const methodOverride = require('method-override')
-import { getUserByEmail, getAllPosts, getUserById, getPostById, getCommentsByPostId, newUser, newComment, newPost, updatePostById, deletePost } from './db-functions';
+const { getUserByEmail, getAllPosts, getUserById, getPostById, getCommentsByPostId, newUser, newComment, newPost, updatePostById, deletePost } = require('./db-functions.js');
 const app = express();
 
 intializePassport(passport, getUserByEmail)
@@ -29,52 +29,57 @@ app.use(session({
 
 app.use(passport.initialize())
 app.use(passport.session())
-app.use(methodOverride('_method'))
+//app.use(methodOverride('_method'))
 
 // protect our route using checkAuthenticated middleware
-app.get('/', checkAuthenticated, (req, res) => {
-    const posts = getAllPosts()
-    res.render('index.ejs', { posts })
+app.get('/', checkAuthenticated, async (req, res) => {
+    const posts = await getAllPosts()
+    res.render('index.ejs', { posts, getUserById })
 })
 //!!!!!!!!!!!!!!!!!!!!!!!!!!
 app.get('/newPost', checkAuthenticated, (req, res) => {
     res.render('newPost.ejs')
 })
 
-app.post('/newPost', checkAuthenticated, (req, res) => {
-    newPost(req.body.title, req.body.post, req.user.id)
+app.post('/newPost', checkAuthenticated, async (req, res) => {
+    await newPost(req.body.title, req.body.post, req.user[0].id)
     res.redirect('/')
 })
 
-app.get('/updatePost/:id', checkAuthenticated, (req, res) => {
+app.get('/updatePost/:id', checkAuthenticated, async (req, res) => {
     const id = +req.params.id
-    const post = getPostById(id)
+    let post = await getPostById(id)
+    //console.log(post)
+    post = post[0]
     res.render('updatePost.ejs', { post })
 })
 
-app.post('/updatePost/:id', checkAuthenticated, (req, res) => {
+app.post('/updatePost/:id', checkAuthenticated, async (req, res) => {
     const id = +req.params.id
-    const post = getPostById(id)
-    updatePostById(post, req.user.id, id)
+    const post = await getPostById(id)
+    //console.log(post[0].title)
+    await updatePostById(req.body.title, req.body.post, req.user[0].id, id)
     res.redirect('/')
 })
 
-app.post('/deletePost/:id', checkAuthenticated, (req, res) => {
+app.post('/deletePost/:id', checkAuthenticated, async (req, res) => {
     const id = +req.params.id
-    deletePost(id)
+    await deletePost(id)
     res.redirect('/')
 })
 
-app.get('/newComment/:id', checkAuthenticated, (req, res) => {
+app.get('/newComment/:id', checkAuthenticated, async (req, res) => {
     const id = +req.params.id
-    const post = getPostById(id)
-    const comments = getCommentsByPostId(id)
-    res.render('newComment.ejs')
+    const post = await getPostById(id)
+    console.log(post)
+    const comments = await getCommentsByPostId(id)
+    res.render('newComment.ejs', { post: post[0], comments })
 })
 
-app.post('/newComment/:id', checkAuthenticated, (req,res) => {
+app.post('/newComment/:id', checkAuthenticated, async (req,res) => {
     const id = +req.params.id
-    newComment(req.body.comment, id, req.user.id)
+    console.log('/post newComment', req.user)
+    await newComment(req.body.comment, id, req.user[0].id)
     res.redirect(`/newComment/${id}`)
 })
 //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
@@ -98,13 +103,16 @@ app.post('/register', checkNotAuthenticated, async (req, res) => {
         // store the user in the database
         newUser(req.body.name, req.body.email, hashedPassword )
         res.redirect('/login')
-    } catch {
+    } catch (error) {
+        console.error("Error during user registration:", error);
         res.redirect('/register')
     }
 })
 
-app.delete('/logout', (req, res) => {
-    req.logOut()
+app.get('/logout', (req, res) => {
+    req.logOut(() => {
+        console.log('successfully logged out!')
+    })
     res.redirect('/login')
 })
 

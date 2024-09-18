@@ -2,7 +2,6 @@
   "name": "task_1",
   "version": "1.0.0",
   "description": "creating a CRUD api using MySQL, node.js and express",
-  "type": "module",
   "main": "src/server.js",
   "scripts": {
     "dev": "npx nodemon src/server.js"
@@ -13,11 +12,17 @@
   "dependencies": {
     "bcrypt": "^5.1.1",
     "cors": "^2.8.5",
+    "dotenv": "^16.4.5",
     "ejs": "^3.1.10",
     "express": "^4.19.2",
+    "express-flash": "0.0.2",
+    "express-session": "^1.18.0",
+    "method-override": "^3.0.0",
     "mysql": "^2.18.1",
     "mysql2": "^3.11.0",
-    "nodemon": "^3.1.4"
+    "nodemon": "^3.1.4",
+    "passport": "^0.7.0",
+    "passport-local": "^1.0.0"
   },
   "devDependencies": {
     "@types/express": "^4.17.21"
