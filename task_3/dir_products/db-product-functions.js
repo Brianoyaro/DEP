@@ -16,17 +16,19 @@ async function getProducts() {
     const [ rows ] = await pool.query(
         'SELECT * FROM product'
     );
-    return rows[0];
+    // console.log(rows)
+    return rows;
 }
 async function getProduct(id){
     const [rows] = await pool.query(
         'SELECT * FROM `product` WHERE id = ?', [id]
     );
+    // console.log(rows[0])
     return rows[0];
 }
 async function updateProduct(id, quantity){
     const [result] = await pool.query(
-        'UPDATE `procuct` SET quantity=? WHERE id=?', [quantity, id]
+        'UPDATE `product` SET quantity=? WHERE id=?', [quantity, id]
     );
     return result.insertId;
 }

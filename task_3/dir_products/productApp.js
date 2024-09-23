@@ -1,5 +1,6 @@
 const express = require('express');
 const { newProduct, getProducts, getProduct, updateProduct } = require('./db-product-functions');
+const fetch = require('node-fetch')
 const app = express()
 const port = 8002;
 
@@ -19,11 +20,12 @@ app.get('/products', async (req,res) => {
 
 app.get('/products/:id', async(req,res) => {
     const id = +req.params.id;
-    const product = getProduct(id);
+    // console.log(typeof id)
+    const product = await getProduct(id);
     res.json(product);
 })
 
-app.get('/updateProduct', async(req,res) => {
+app.post('/updateProduct', async(req,res) => {
     const { id, quantity } = req.body;
     await updateProduct(id, quantity);
     const product = await getProduct(id);

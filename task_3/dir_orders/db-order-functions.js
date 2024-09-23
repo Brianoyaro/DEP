@@ -20,9 +20,9 @@ async function displayOrder(id){
 }
 async function displayOrders(){
     const [rows] = await pool.query(
-        'SELECT * FROM `order',
+        'SELECT * FROM `order`',
     );
-    return rows[0];
+    return rows;
 }
 async function updateOrder(id, status){
     const [result] = await pool.query(
