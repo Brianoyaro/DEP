@@ -1,0 +1,20 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: payment-deployment-1
+spec:
+  replicas: 3  # Number of Pods
+  selector:
+    matchLabels:
+      app: payment-deployment
+  template:
+    metadata:
+      labels:
+        app: payment-deployment
+    spec:
+      containers:
+      - name: payment-deployment
+        image: payment-microservice:1.0.0 
+        ports:
+        - containerPort: 8001

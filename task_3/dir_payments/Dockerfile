@@ -8,7 +8,7 @@ WORKDIR /usr/src/app
 COPY package*.json ./
 
 # Install the dependencies
-RUN npm install mysql2 nodemon express axios
+RUN npm install
 
 # Copy the rest of the code
 COPY . .
@@ -17,4 +17,4 @@ COPY . .
 EXPOSE 8001
 
 # Define the command to run the app
-CMD ["npm", "run dev"]
+CMD ["npm", "run", "dev"]
