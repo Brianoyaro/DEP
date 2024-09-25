@@ -1,0 +1,5 @@
+Pods, service, deployments
+
+https://spacelift.io/blog/kubernetes-deployment-yaml
+
+https://k8s-examples.container-solutions.com/examples/Service/Service.html

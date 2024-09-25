@@ -1,5 +1,0 @@
-# Install all of these in the three micro-service folders
-# Will I use fetch or ajax for making the connection calls? How to use them? Change my codebase to incorporate the suggested connection call.
-
-npm init -y
-npm i express, nodemon, mysql2
