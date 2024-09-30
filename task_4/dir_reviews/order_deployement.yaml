@@ -2,19 +2,19 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: order-deployment-1
+  name: review-deployment-1
 spec:
   replicas: 3  # Number of Pods
   selector:
     matchLabels:
-      app: order-deployement # matches pods labeled this way
+      app: review-deployement # matches pods labeled this way
   template:
     metadata:
       labels:
-        app: order-deployement # label applied to pods created using this deployment
+        app: review-deployement # label applied to pods created using this deployment
     spec:
       containers:
-      - name: order-deployement
-        image: order-microservice:1.0.0
+      - name: review-deployement
+        image: review-microservice:1.0.0
         ports:
-        - containerPort: 8000
+        - containerPort: 8004
