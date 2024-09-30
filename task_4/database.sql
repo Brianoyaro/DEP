@@ -29,18 +29,18 @@ CREATE TABLE IF NOT EXISTS payment(
 
 -- create cart table
 DROP TABLE IF EXISTS `cart`;
-CREATE TABLE IF NOT EXISTS `cart` (
+CREATE TABLE IF NOT EXISTS `cart`(
 	id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	product_id INT NOT NULL,
 	quantity INT NOT NULL,
-	FOREIGN KEY (product_id) REFERENCES `product` (id) ON DELETE CASCADE, 
+	FOREIGN KEY (product_id) REFERENCES `product` (id) ON DELETE CASCADE
 );
 
 -- create reviews table
 DROP TABLE IF EXISTS `review`;
-CREATE TABLE IF NOT EXISTS `review` (
+CREATE TABLE IF NOT EXISTS `review`(
 	id INT PRIMARY KEY AUTO_INCREMENT NOT NULL,
 	content TEXT NOT NULL,
 	product_id INT NOT NULL,
-	FOREIGN KEY (product_id) REFERENCES `product` (id) ON DELETE CASCADE, 
+	FOREIGN KEY (product_id) REFERENCES `product` (id) ON DELETE CASCADE
 );
