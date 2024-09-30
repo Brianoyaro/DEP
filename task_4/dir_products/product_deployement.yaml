@@ -1,0 +1,20 @@
+# deployment.yaml
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: product-deployment-1
+spec:
+  replicas: 3  # Number of Pods
+  selector:
+    matchLabels:
+      app: product-deployement
+  template:
+    metadata:
+      labels:
+        app: product-deployement
+    spec:
+      containers:
+      - name: product-deployement
+        image: product-microservice:1.0.0
+        ports:
+        - containerPort: 8002

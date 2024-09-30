@@ -1,0 +1,1 @@
+Creating an e-commerce platform using microservices architecture, using docker for containerization and Kubernetes for orchestration

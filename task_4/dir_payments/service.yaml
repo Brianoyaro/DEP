@@ -1,0 +1,13 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: payment-microservice-1-service
+spec:
+  selector:
+    app: payment-deployment # match pods with this label
+  ports:
+    - protocol: TCP
+      port: 8001  # Cluster IP port
+      targetPort: 8001 # The port your Node.js app listens on
+  type: ClusterIP  # You can use NodePort or LoadBalancer if you need external access

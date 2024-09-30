@@ -1,0 +1,13 @@
+# service.yaml
+apiVersion: v1
+kind: Service
+metadata:
+  name: product-microservice-1-service
+spec:
+  selector:
+    app: product-deployement
+  ports:
+    - protocol: TCP
+      port: 8002   # Cluster IP port
+      targetPort: 8002  # The port your Node.js app listens on
+  type: ClusterIP  # You can use NodePort or LoadBalancer if you need external access

@@ -1,0 +1,13 @@
+docker build -t <image_name:version_number> e.g order-microservice:1.0.0
+docker run -it -d order-microservice:1.0.0
+docker ps
+docker help
+docker image ls
+docker image rm <image_name:version_number>
+docker stop <image_name:version_number>
+
+docker - creates containers which can run on any platform that supports docker i.e you will not have to write duplicate code for different OS platforms
+
+https://www.digitalocean.com/community/tutorials/how-to-build-a-node-js-application-with-docker
+
+https://docs.docker.com/build/concepts/dockerfile/
