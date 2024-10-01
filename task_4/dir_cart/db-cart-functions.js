@@ -24,10 +24,17 @@ async function displayCarts(){
     );
     return rows;
 }
-async function updateCart(id, quantity){
+async function updateCart(product_id, quantity){
     const [result] = await pool.query(
-        'UPDATE `cart` SET quantity=? WHERE id=?', [quantity, id]
+        'UPDATE `cart` SET quantity=? WHERE product_id=?', [quantity, product_id]
     );
     return result.insertId;
 }
-module.exports = { newCart, displayCart, updateCart, displayCarts };
+
+async function doesProductExist(product_id) {
+    const [row] = await pool.query(
+        'SELECT * FROM `cart` WHERE product_id=?', [product_id]
+    );
+    return row[0];
+}
+module.exports = { newCart, displayCart, updateCart, displayCarts, doesProductExist };

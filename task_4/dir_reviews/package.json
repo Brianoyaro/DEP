@@ -5,7 +5,7 @@
   "main": "db-review-functions.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon orderApp.js"
+    "dev": "npx nodemon reviewApp.js"
   },
   "keywords": [],
   "author": "",

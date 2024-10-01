@@ -17,7 +17,7 @@ app.post('/newOrder', async (req, res) => {
     const resp = await axios.get(`http://localhost:8002/products/${product_id}`);
     if (!resp.data) {
         // incase there was an error
-        res.json({'error': 'product not avaiable'})
+        res.json({'error': 'product not available'})
         return
     }
     const product = resp.data
