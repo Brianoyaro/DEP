@@ -1,0 +1,1 @@
+Creating music streamin api, using docker for containerization and Kubernetes for orchestration
