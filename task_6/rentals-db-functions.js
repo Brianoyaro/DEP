@@ -8,7 +8,7 @@ const pool = mysql.createPool({
 
 // get a rental object
 async function getRental(id) {
-    const [rows] = await pool.query(
+    const [ rows ] = await pool.query(
         'SELECT * FROM `rental` WHERE id = ?', [id]
     );
     return rows[0]
@@ -17,7 +17,7 @@ async function getRental(id) {
 // get all rentals with user specified filters
 async function getRentals(location, size, price) {
     const [rows] = await pool.query(
-        'SELECT * FROM `rental` WHERE location = ?, size = ?, price = ?', [location, size, prices]
+        'SELECT * FROM `rental` WHERE location = ?, size = ?, price = ?', [location, size, price]
     );
     return rows
 }
@@ -48,9 +48,9 @@ async function rentalPayments(rental_id) {
 }
 
 // create a new rental object
-async function newRental(location, price, size, ammenities, is_booked) {
+async function newRental(location, price, size, ammenities) {
     const [result] = await pool.query(
-        'INSERT INTO `rental` (location, price, size, ammenities, isBooked) VALUES (?, ?, ?, ?, ?)', [location, price, size, JSON.stringify(ammenities), is_booked]
+        'INSERT INTO `rental` (location, price, size, ammenities) VALUES (?, ?, ?, ?)', [location, price, size, JSON.stringify(ammenities)]
     );
     const id = result.insertId
     const rental = await getRental(id)
@@ -59,11 +59,29 @@ async function newRental(location, price, size, ammenities, is_booked) {
 
 // create a new payment object
 // I suppose it would be better if I could pass start_date and duration from whence I calculate the end_date
-async function newPayment(rental_id, start_date, end_date, duration) {
+async function newPayment(rental_id, amount) {
     const [result] = await pool.query(
-        'INSERT INTO `payment` (rentalID, startDate, endDate, duration) VALUES (?, ?, ?, ?)', [rental_id, start_date, end_date, duration]
+        'INSERT INTO `payment` (rentalID,amount) VALUES (?, ?)', [rental_id, amount]
     );
     const id = result.insertId
     const payment = await getPayment(id)
     return payment
 }
+
+// get all rentals
+async function getAllRentals() {
+    const [rows] = await pool.query(
+        'SELECT * FROM `rental`'
+    )
+    return rows
+}
+
+// book a rental
+async function setRentalBooked(rental_id) {
+    const [result] = await pool.query(
+        'UPDATE `payment` SET isBooked = true WHERE rentalId = ?', [rental_id]
+    )
+    return result.insertId
+}
+
+module.exports = { getRental, getRentals, vacantRentals, getPayment, rentalPayments, newRental, newPayment, getAllRentals, setRentalBooked }

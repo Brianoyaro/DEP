@@ -5,7 +5,7 @@
   "main": "cartApp.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "npx nodemon server.js"
+    "dev": "npx nodemon rentals.js"
   },
   "keywords": [],
   "author": "",
