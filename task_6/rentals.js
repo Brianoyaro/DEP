@@ -40,21 +40,33 @@ app.get('/payments', async (req, res) => {
 })
 
 app.post('/newRental', async (req, res) => {
-    console.log(req.body)
+    // console.log(req.body)
     const { location, price, size, ammenities } = req.body
     const rental = await newRental(location, price, size, ammenities)
     res.status(201).json(rental)
 })
 
-app.post('/newPayments', async (req, res) => {
+app.post('/newPayment', async (req, res) => {
     const { rentalId, amount } = req.body
-    if (amount !== 0) {
-        const payment = await newPayment(rentalId, amount)
-        await setRentalBooked(rentalId)
-        res.status(201).json(payment)
-    } else {
-        res.status(400).json({'error': 'ammount can not be 0'})
+    // confirm rental exists
+    const rental = await getRental(rentalId)
+    console.log(rental)
+    if (!rental) {
+        res.status(404).json({'error': 'Rental does not exist'})
+        return
     }
+    // confirm rental is not booked
+    if (rental.isBooked) {
+        res.status(404).json({'error': 'Than rental is booked.'})
+        return
+    }
+    if (amount === 0) {
+        res.status(400).json({'error': 'ammount can not be 0'})
+        return
+    }
+    const payment = await newPayment(rentalId, amount)
+    await setRentalBooked(rentalId)
+    res.status(201).json(payment)
 })
 
 app.listen(port, () => {

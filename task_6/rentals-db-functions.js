@@ -16,10 +16,49 @@ async function getRental(id) {
 
 // get all rentals with user specified filters
 async function getRentals(location, size, price) {
-    const [rows] = await pool.query(
-        'SELECT * FROM `rental` WHERE location = ?, size = ?, price = ?', [location, size, price]
-    );
-    return rows
+    if (location && size && price) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE location = ?, size = ?, price = ?', [location, size, price]
+        );
+        return rows
+    }
+    if (location && size) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE location = ?, size = ?', [location, size]
+        );
+        return rows
+    }
+    if (location &&  price) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE location = ?, price = ?', [location, price]
+        );
+        return rows
+    }
+    if (size && price) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE size = ?, price = ?', [size, price]
+        );
+        return rows
+    }
+    if (location) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE location = ?', [location]
+        );
+        return rows
+    }
+    if (size) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE  size = ?', [size]
+        );
+        return rows
+    }
+    if (price) {
+        const [rows] = await pool.query(
+            'SELECT * FROM `rental` WHERE  price = ?', [price]
+        );
+        return rows
+    }
+
 }
 
 // get all vacant rentals
@@ -79,9 +118,10 @@ async function getAllRentals() {
 // book a rental
 async function setRentalBooked(rental_id) {
     const [result] = await pool.query(
-        'UPDATE `payment` SET isBooked = true WHERE rentalId = ?', [rental_id]
+        'UPDATE `rental` SET isBooked = true WHERE id = ?', [rental_id]
     )
     return result.insertId
 }
+
 
 module.exports = { getRental, getRentals, vacantRentals, getPayment, rentalPayments, newRental, newPayment, getAllRentals, setRentalBooked }
